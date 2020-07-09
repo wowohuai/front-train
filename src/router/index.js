@@ -56,23 +56,23 @@ export const constantRoutes = [
   },
 
   {
-    path: '/example',
+    path: '/employee',
     component: Layout,
-    redirect: '/example/table',
-    name: 'Example',
+    redirect: '/employee/list',
+    name: 'Employee',
     meta: { title: '人员管理', icon: 'el-icon-s-help' },
     children: [
       {
-        path: 'table',
-        name: 'Table',
-        component: () => import('@/views/table/index'),
+        path: 'list',
+        name: 'List',
+        component: () => import('@/views/employee/list'),
         meta: { title: '员工列表', icon: 'table' }
       },
       {
-        path: 'detail',
-        name: 'Detail',
-        component: () => import('@/views/detail/index'),
-        meta: { title: '员工详情', icon: 'table' }
+        path: 'create',
+        name: 'Create',
+        component: () => import('@/views/employee/create'),
+        meta: { title: '员工新增', icon: 'table' }
       }
       // ,
       // {
