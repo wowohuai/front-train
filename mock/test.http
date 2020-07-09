@@ -1,7 +1,22 @@
 @baseUrl = http://10.200.5.195:8080/dev-api/v1
+@devBaseUrl =/dev-api/v1
 
 
 ## test 接口
 
 GET {{baseUrl}}/test HTTP/1.1
+Content-Type: application/json
+
+#####
+POST {{baseUrl}}/user/login HTTP/1.1
+Content-Type: application/json
+
+{
+    "username":"谭煜",
+    "password":"123",
+}
+
+####
+
+POST {{devBaseUrl}}/user/list HTTP/1.1
 Content-Type: application/json

@@ -8,24 +8,24 @@
       fit
       highlight-current-row
     >
-      <el-table-column align="center" label="ID" width="95">
-        <template slot-scope="scope">{{ scope.$index }}</template>
+      <el-table-column align="center" label="ID">
+        <template slot-scope="scope">{{ scope.row.id }}</template>
       </el-table-column>
-      <el-table-column label="Title">
-        <template slot-scope="scope">{{ scope.row.title }}</template>
+      <el-table-column label="员工名" width="100">
+        <template slot-scope="scope">{{ scope.row.username }}</template>
       </el-table-column>
-      <el-table-column label="Author" width="110" align="center">
+      <el-table-column label="员工职称" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.author }}</span>
+          <span>{{ scope.row.position }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="Pageviews" width="110" align="center">
-        <template slot-scope="scope">{{ scope.row.pageviews }}</template>
+      <el-table-column label="员工所属部门" align="center">
+        <template slot-scope="scope">{{ scope.row.deptName }}</template>
       </el-table-column>
-      <el-table-column fixed="right" label="操作" width="100">
+      <el-table-column fixed="right" label="操作" align="center">
         <template slot-scope="scope">
-          <el-button type="text" size="small" @click="handleClickView(scope.row)">查看</el-button>
-          <el-button type="text" size="small">编辑</el-button>
+          <el-button type="primary " size="mini">编辑</el-button>
+          <el-button type="danger" size="mini" @click="deleteUserInfo(scope.row.id)">删除</el-button>
         </template>
       </el-table-column>
       <!-- <el-table-column align="center" prop="created_at" label="Display_time" width="200">
@@ -39,8 +39,7 @@
 </template>
 
 <script>
-import { getList } from '@/api/table'
-
+import { list, deleteUser } from '@/api/user'
 export default {
   filters: {
     statusFilter(status) {
@@ -64,13 +63,16 @@ export default {
   methods: {
     fetchData() {
       this.listLoading = true
-      getList().then(response => {
-        this.list = response.data.items
+      list().then(response => {
+        this.list = response.data
         this.listLoading = false
       })
     },
-    handleClickView(data) {
-      console.log(data)
+    deleteUserInfo(id) {
+      deleteUser(id).then(res => {
+        this.$message('删除成功')
+        this.$router.push({ path: '/employee/list' })
+      })
     }
   }
 }

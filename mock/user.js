@@ -1,3 +1,4 @@
+const Mock = require('mockjs')
 
 const tokens = {
   admin: {
@@ -7,6 +8,16 @@ const tokens = {
     token: 'editor-token'
   }
 }
+
+const data = Mock.mock({
+  'items|30': [{
+    id: '@id',
+    username: '@sentence(1)',
+    age: '@integer(10,30)',
+    position: '@sentence(1)',
+    partment: '@sentence(1)'
+  }]
+})
 
 const users = {
   'admin-token': {
@@ -41,7 +52,7 @@ module.exports = [
       }
 
       return {
-        code: 20000,
+        code: 200,
         data: token
       }
     }
@@ -49,11 +60,11 @@ module.exports = [
 
   // get user info
   {
-    url: '/vue-admin-template/user/info\.*',
+    url: '/vue-admin-template/user/getUser\.*',
     type: 'get',
     response: config => {
-      const { token } = config.query
-      const info = users[token]
+      // const { id: token } = config.query
+      const info = users['admin-token']
 
       // mock error
       if (!info) {
@@ -64,7 +75,7 @@ module.exports = [
       }
 
       return {
-        code: 20000,
+        code: 200,
         data: info
       }
     }
@@ -76,8 +87,20 @@ module.exports = [
     type: 'post',
     response: _ => {
       return {
-        code: 20000,
+        code: 200,
         data: 'success'
+      }
+    }
+  },
+
+  // get user list
+  {
+    url: '/vue-admin-template/user/list',
+    type: 'post',
+    response: _ => {
+      return {
+        code: 200,
+        data
       }
     }
   }
