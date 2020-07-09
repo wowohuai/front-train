@@ -1,0 +1,7 @@
+@baseUrl = http://10.200.5.195:8080/dev-api/v1
+
+
+## test 接口
+
+GET {{baseUrl}}/test HTTP/1.1
+Content-Type: application/json
