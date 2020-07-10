@@ -10,7 +10,7 @@ export function login(data) {
 
 export function getInfo(token) {
   return request({
-    url: `/user/getUser/${token}`,
+    url: `/user/info/${token}`,
     method: 'get'
   })
 }
@@ -24,7 +24,7 @@ export function logout() {
 
 export function list() {
   return request({
-    url: '/user/getAllUsers',
+    url: '/user/list',
     method: 'get'
   })
 }

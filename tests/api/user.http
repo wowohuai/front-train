@@ -7,7 +7,7 @@
 GET {{baseUrl}}/test HTTP/1.1
 Content-Type: application/json
 
-#####
+##### login
 POST {{baseUrl}}/user/login HTTP/1.1
 Content-Type: application/json
 
@@ -16,7 +16,7 @@ Content-Type: application/json
     "password":"123",
 }
 
-####
+#### user list 
 
 POST {{devBaseUrl}}/user/list HTTP/1.1
 Content-Type: application/json
