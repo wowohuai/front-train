@@ -20,11 +20,11 @@
         </template>
       </el-table-column>
       <el-table-column label="员工所属部门" align="center">
-        <template slot-scope="scope">{{ scope.row.deptName }}</template>
+        <template slot-scope="scope">{{ scope.row.department }}</template>
       </el-table-column>
       <el-table-column fixed="right" label="操作" align="center">
         <template slot-scope="scope">
-          <el-button type="primary " size="mini">编辑</el-button>
+          <el-button type="primary " size="mini" @click="handleClickEdit(scope.row)">编辑</el-button>
           <el-button type="danger" size="mini" @click="deleteUserInfo(scope.row.id)">删除</el-button>
         </template>
       </el-table-column>
@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import { list, deleteUser } from '@/api/user'
+import { list, remove } from '@/api/user'
 export default {
   filters: {
     statusFilter(status) {
@@ -53,7 +53,7 @@ export default {
   },
   data() {
     return {
-      list: null,
+      list: [],
       listLoading: true
     }
   },
@@ -64,16 +64,27 @@ export default {
     fetchData() {
       this.listLoading = true
       list().then(response => {
-        console.log(response.data)
-        this.list = response.data.items
+        this.list = response.data.list
         this.listLoading = false
       })
     },
     deleteUserInfo(id) {
-      deleteUser(id).then(res => {
-        this.$message('删除成功')
-        this.$router.push({ path: '/employee/list' })
+      this.$confirm('此操作将永久删除该员工， 是否继续？', '提示', {
+        confirmButtonText: '确定删除',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        remove(id).then(res => {
+          const { msg } = res
+          this.$message({
+            message: msg,
+            type: 'success'
+          })
+        })
       })
+    },
+    handleClickEdit(row) {
+      this.$router.push(`/employee/edit/${row.id}`)
     }
   }
 }

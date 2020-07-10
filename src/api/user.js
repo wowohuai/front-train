@@ -8,9 +8,9 @@ export function login(data) {
   })
 }
 
-export function getInfo(token) {
+export function getInfo() {
   return request({
-    url: `/user/info/${token}`,
+    url: '/user/info/',
     method: 'get'
   })
 }
@@ -29,17 +29,28 @@ export function list() {
   })
 }
 
-export function deleteUser(id) {
+export function remove(id) {
   return request({
-    url: `/user/deleteUser/${id}`,
+    url: `/user/remove/${id}`,
     method: 'DELETE'
   })
 }
 
-export function addUser(data) {
+export function add(data) {
   return request({
-    url: `/user/addUser`,
+    url: `/user/add`,
     method: 'post',
     data
+  })
+}
+
+export function getById({ id }) {
+  console.log('getById' + id)
+  return request({
+    url: '/user/getById',
+    method: 'get',
+    params: {
+      id
+    }
   })
 }

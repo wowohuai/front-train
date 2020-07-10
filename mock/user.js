@@ -1,4 +1,5 @@
 const Mock = require('mockjs')
+const Random = Mock.Random
 
 const tokens = {
   admin: {
@@ -10,12 +11,12 @@ const tokens = {
 }
 
 const data = Mock.mock({
-  'items|30': [{
+  'list|30': [{
     id: '@id',
-    username: '@sentence(1)',
+    username: '@csentence(2,6)',
     age: '@integer(10,30)',
-    position: '@sentence(1)',
-    partment: '@sentence(1)'
+    position: '@csentence(3,6)',
+    department: Random.title(4)
   }]
 })
 
@@ -24,13 +25,13 @@ const users = {
     roles: ['admin'],
     introduction: 'I am a super administrator',
     avatar: 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
-    name: 'Super Admin'
+    username: 'Super Admin'
   },
   'editor-token': {
     roles: ['editor'],
     introduction: 'I am an editor',
     avatar: 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
-    name: 'Normal Editor'
+    username: 'Normal Editor'
   }
 }
 
@@ -101,6 +102,20 @@ module.exports = [
       return {
         code: 200,
         data
+      }
+    }
+  },
+
+  // get user by id
+  {
+    url: '/user/getById',
+    type: 'get',
+    response: _ => {
+      const { id } = _.query
+      console.log(id)
+      return {
+        code: 200,
+        data: data['list'][id]
       }
     }
   }

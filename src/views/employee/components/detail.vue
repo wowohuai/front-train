@@ -45,7 +45,7 @@
         </el-select>
       </el-form-item>
       <el-form-item>
-        <el-button v-show="!isEdit" type="primary" @click="onSubmit">创建</el-button>
+        <el-button v-show="!isEdit" type="primary" @click="submitForm">创建</el-button>
         <el-button @click="onCancel">取消</el-button>
       </el-form-item>
     </el-form>
@@ -53,7 +53,7 @@
 </template>
 
 <script>
-import { addUser } from '@/api/user'
+import { add, getById } from '@/api/user'
 
 export default {
   name: 'Detail',
@@ -76,14 +76,19 @@ export default {
     }
   },
   mounted() {
+    // 处于编辑状态下
+    if (this.isEdit) {
+      this._getById(this.$route.params.id)
+    }
   },
   methods: {
-    submitForm() {
-
+    _getById(id) {
+      getById({ id }).then(res => {
+      })
     },
-    onSubmit() {
+    submitForm() {
       console.log(this.postForm)
-      addUser(this.postForm).then(res => {
+      add(this.postForm).then(res => {
         this.$router.push({ path: '/employee/list' })
       })
     },
