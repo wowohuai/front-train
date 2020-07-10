@@ -16,9 +16,35 @@ const data = Mock.mock({
     username: '@csentence(2,6)',
     age: '@integer(10,30)',
     position: '@csentence(3,6)',
-    department: Random.title(4)
+    depart_id: '@id',
+    depart_name: '@csentence(3,6)'
   }]
 })
+
+
+const genList = (num, page) => {
+  const res = []
+  const start = (page -1) * num
+  const end = page * num
+
+
+  for(let i=start; i < end; i++) {
+    res.push(genUser())
+  }
+  return res
+}
+
+const genUser = id => {
+  return {
+    id: '@id',
+    depart_id: '@id',
+    username: '@csentence(2,6)',
+    age: '@integer(10,30)',
+    position: '@csentence(3,6)',
+    depart_name: Random.title(4)
+  }
+}
+
 
 const users = {
   'admin-token': {
@@ -97,11 +123,15 @@ module.exports = [
   // get user list
   {
     url: '/user/list',
-    type: 'get',
+    type: 'post',
     response: _ => {
+      const { curPage, limit } = _.body
       return {
         code: 200,
-        data
+        data: {
+          total: 100,
+          list: genList(limit, curPage)
+        }
       }
     }
   },
@@ -115,7 +145,32 @@ module.exports = [
       console.log(id)
       return {
         code: 200,
-        data: data['list'][id]
+        data: genUser(id)
+      }
+    }
+  },
+  // get user role list
+  {
+    url: '/user/getRoles',
+    type: 'get',
+    response: _ => {
+      return {
+        code: 200, 
+        data: {
+          list: ['admin', 'guest']
+        }
+      }
+    }
+  },
+
+  // user remove by id
+  {
+    url: '/user/remove',
+    type: "delete",
+    response: _=> {
+      return {
+        code: 200,
+        msg: '删除成功'
       }
     }
   }

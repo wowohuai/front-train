@@ -34,10 +34,20 @@
       </el-row>
       <el-form-item label="部门名">
         <el-select v-model="postForm.deptId" placeholder="请选择部门名称">
-          <el-option label="销售部" value="1" />
-          <el-option label="研发部" value="2" />
+          <el-option
+            v-for="item in categories"
+            :key="item.depart_id"
+            :value="item.depart_name"
+          />
         </el-select>
       </el-form-item>
+      <!-- <el-select v-model="listQuery.category" style="margin-left: 20px" placeholder="分类" class="filter-item" @change="handleSelect">
+        <el-option
+          v-for="item in categories"
+          :key="item.depart_id"
+          :value="item.depart_name"
+        />
+      </el-select> -->
       <el-form-item label="角色">
         <el-select v-model="postForm.role" placeholder="请选择角色">
           <el-option label="管理员" value="0" />
@@ -54,6 +64,7 @@
 
 <script>
 import { add, getById } from '@/api/user'
+import { getList } from '@/api/department'
 
 export default {
   name: 'Detail',
@@ -65,17 +76,19 @@ export default {
   },
   data() {
     return {
+      categories: [],
       postForm: {
         username: '',
         age: '',
         deptId: '',
         position: '',
-        password: '',
-        role: ''
+        password: '123456',
+        role: 'guest'
       }
     }
   },
   mounted() {
+    this.getPartCategory()
     // 处于编辑状态下
     if (this.isEdit) {
       this._getById(this.$route.params.id)
@@ -84,6 +97,10 @@ export default {
   methods: {
     _getById(id) {
       getById({ id }).then(res => {
+        this.postForm = {
+          ...this.postForm,
+          ...res.data
+        }
       })
     },
     submitForm() {
@@ -94,6 +111,12 @@ export default {
     },
     onCancel() {
 
+    },
+    getPartCategory() {
+      getList().then(res => {
+        this.categories = res.data
+        // list.forEach(item => this.categories.push(item.depart_name))
+      })
     }
   }
 }
