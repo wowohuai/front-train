@@ -73,14 +73,14 @@ export const constantRoutes = [
         name: 'Create',
         component: () => import('@/views/employee/create'),
         meta: { title: '员工新增', icon: 'table' }
+      },
+      {
+        path: 'edit/:id',
+        name: 'Edit',
+        component: () => import('@/views/employee/edit'),
+        meta: { title: '员工编辑', icon: 'tree' },
+        hidden: true
       }
-      // ,
-      // {
-      //   path: 'tree',
-      //   name: 'Tree',
-      //   component: () => import('@/views/tree/index'),
-      //   meta: { title: 'Tree', icon: 'tree' }
-      // }
     ]
   },
 
